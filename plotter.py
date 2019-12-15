@@ -81,4 +81,5 @@ if __name__ == "__main__":
         "quickSort":quickSort
     }
     for s in sortingMethods.keys():
+        print("generating video for {}".format(s))
         showSortList(sortingMethods[s],s,copy(x),N)
