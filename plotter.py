@@ -55,7 +55,10 @@ if __name__ == "__main__":
     try:
         mode = args[1]
     except:
-        mode = "random"
+        if N==0:
+            mode = "fixed"
+        else:
+            mode = "random"
     if mode == "reversed":
         x = list(reversed(x))
     elif mode == "almost":
@@ -65,10 +68,13 @@ if __name__ == "__main__":
                 x[i] = x[i+1]
                 x[i+1] = temp
         #print(x)
+    elif mode == "fixed":
+        pass
     else:
         shuffle(x)
     sortingMethods = {
         "bubbleSort":bubbleSort,
+        "heapSort":heapSort,
         "insertionSort":insertionSort,
         "mergeSort":mergeSort,
         "selectionSort":selectionSort,

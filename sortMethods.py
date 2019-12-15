@@ -2,9 +2,7 @@ def copy(inp):
     return [inp[asdf] for asdf in range(len(inp))]
 
 def swap(arr,i,j):
-    temp = arr[i]
-    arr[i] = arr[j]
-    arr[j] = temp
+    arr[i], arr[j] = arr[j], arr[i]
 
 def selectionSort(inp):
     arr = inp
@@ -132,4 +130,46 @@ def quickSort(inp):
     return seq
 
 
+def heapSort(inp):
+    arr = inp
+    seq = [copy(arr)]
+    n = len(arr)
+    if n<=1:
+        return [arr]
+
+    def children(i):
+        return (2*i,2*i+1)
+    def parent(i):
+        return i//2
+
+    heapSize = 1
+    while heapSize<n:
+        i = heapSize
+        while i>0 and arr[i]>arr[parent(i)]:
+            swap(arr,i,parent(i))
+            i = parent(i)
+            seq.append(copy(arr))
+        if i==heapSize:
+            seq.append(copy(arr))
+        heapSize += 1
+    
+    while heapSize>1:
+        heapSize -= 1
+        swap(arr,0,heapSize)
+        seq.append(copy(arr))
+        i = 0
+        while i<heapSize//2 and (arr[i]<arr[children(i)[0]] or arr[i]<arr[children(i)[1]]):
+            maxIndex = i
+            if arr[i]<arr[children(i)[0]]:
+                maxIndex = children(i)[0]
+            if arr[i]<arr[children(i)[1]]:
+                maxIndex = children(i)[1]
+            assert maxIndex!=i, "Something went wrong with sifting down..." + str(arr) + str(i)
+            swap(arr,i,maxIndex)
+            i = maxIndex
+            seq.append(copy(arr))
+        if i==0:
+            seq.append(copy(arr))
+    
+    return seq
 
