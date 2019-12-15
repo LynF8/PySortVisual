@@ -44,14 +44,18 @@ def showSortList(wayToSort, wayName, arr=[],N=0):
     #plt.show()
 
 if __name__ == "__main__":
-    print(list(map(type,sys.argv)))
+    #print(list(map(type,sys.argv)))
     args = sys.argv[1:]
-    N = int(args[0])
+    N = 0
+    try:
+        N = int(args[0])
+        x = list(range(1,N+1))
+    except:
+        x = list(map(int,args[0].split(",")))
     try:
         mode = args[1]
     except:
         mode = "random"
-    x = list(range(1,N+1))
     if mode == "reversed":
         x = list(reversed(x))
     elif mode == "almost":
@@ -60,14 +64,15 @@ if __name__ == "__main__":
                 temp = x[i]
                 x[i] = x[i+1]
                 x[i+1] = temp
-        print(x)
+        #print(x)
     else:
         shuffle(x)
     sortingMethods = {
         "bubbleSort":bubbleSort,
         "insertionSort":insertionSort,
         "mergeSort":mergeSort,
-        "selectionSort":selectionSort
+        "selectionSort":selectionSort,
+        "quickSort":quickSort
     }
     for s in sortingMethods.keys():
         showSortList(sortingMethods[s],s,copy(x),N)

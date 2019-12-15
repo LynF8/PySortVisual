@@ -55,7 +55,6 @@ def insertionSort(inp):
     
     return seq
 
-#TODO: Fix the merging sequence. Does sort correctly but process is wrong.
 def mergeSort(inp):
     arr = inp
     seq = []
@@ -63,7 +62,7 @@ def mergeSort(inp):
     
     if n<=1:
         return [arr]
-    print("sorting",inp)
+    #print("sorting",inp)
     k = n//2
     #sort front
     frontSort = mergeSort(copy(arr[:k]))
@@ -89,10 +88,48 @@ def mergeSort(inp):
             j += 1
         i += 1
         seq.append(copy(arr))
-        print("step:",arr)
-    print(seq)
+        #print("step:",arr)
+    #print(seq)
     return seq
 
+def quickSort(inp):
+    #first element as pivot (shrugs)
+    arr = inp
+    seq = [copy(arr)]
+    n = len(arr)
     
+    if n<=1:
+        return [arr]
+    i = 1
+    j = 1
+    k = n
+    #invariant: arr[0,i) == p and arr[i,j) < p and arr[k,n) > p
+    while j<k:
+        if arr[j]==arr[0]:
+            swap(arr,i,j)
+            i += 1
+            j += 1
+        elif arr[j]<arr[0]:
+            j += 1
+        else:
+            k -= 1
+            swap(arr,j,k)
+        seq.append(copy(arr))
+    #print(arr[:i],arr[i:j],arr[j:])
+    swapRange = min(i,j-i)
+    for index in range(swapRange):
+        swap(arr,index,index+j-swapRange)
+        seq.append(copy(arr))
+    #print(arr)
+    i = j-i
+    frontSort = quickSort(arr[:i])
+    arr[:i] = frontSort[-1]
+    seq += [x+arr[i:] for x in frontSort]
+    backSort = quickSort(arr[j:])
+    arr[j:] = backSort[-1]
+    seq += [arr[:j]+x for x in backSort]
+    #print(seq)
+    return seq
+
 
 
