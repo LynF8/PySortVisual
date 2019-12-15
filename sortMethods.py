@@ -55,7 +55,6 @@ def insertionSort(inp):
     
     return seq
 
-
 #TODO: Fix the merging sequence. Does sort correctly but process is wrong.
 def mergeSort(inp):
     arr = inp
@@ -67,13 +66,13 @@ def mergeSort(inp):
     print("sorting",inp)
     k = n//2
     #sort front
-    frontSort = mergeSort(arr[:k])
+    frontSort = mergeSort(copy(arr[:k]))
     arr[:k] = frontSort[-1]
-    seq += [x+arr[k:] for x in frontSort]
+    seq += [x+copy(arr[k:]) for x in frontSort]
     #sort back
-    backSort = mergeSort(arr[k:])
+    backSort = mergeSort(copy(arr[k:]))
     arr[k:] = backSort[-1]
-    seq += [arr[:k]+x for x in backSort]
+    seq += [copy(arr[:k])+x for x in backSort]
     i = 0
     j = k
     # allow shifting for convenience
@@ -91,6 +90,7 @@ def mergeSort(inp):
         i += 1
         seq.append(copy(arr))
         print("step:",arr)
+    print(seq)
     return seq
 
     
