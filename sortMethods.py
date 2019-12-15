@@ -153,13 +153,13 @@ def heapSort(inp):
             seq.append(copy(arr))
         heapSize += 1
     
-    print(arr)
+    #print(arr)
     
     while heapSize>1:
         heapSize -= 1
         swap(arr,0,heapSize)
         seq.append(copy(arr))
-        print("managing",arr[:heapSize])
+        #print("managing",arr[:heapSize])
         i = 0
         while (children(i)[0]<heapSize and arr[i]<arr[children(i)[0]]) or (children(i)[1]<heapSize and arr[i]<arr[children(i)[1]]):
             maxIndex = i
@@ -173,6 +173,6 @@ def heapSort(inp):
             seq.append(copy(arr))
         if i==0:
             seq.append(copy(arr))
-        print("managed:",arr[:heapSize])
+        #print("managed:",arr[:heapSize])
     return seq
 
