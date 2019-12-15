@@ -82,6 +82,7 @@ def mergeSort(inp):
             toplace = arr[j]
             for index in reversed(range(i,j)):
                 arr[index+1] = arr[index]
+                seq.append(copy(arr))
             arr[i] = toplace
             j += 1
         i += 1
