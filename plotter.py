@@ -7,7 +7,7 @@ from sortMethods import *
 import sys
 
 # First set up the figure, the axis, and the plot element we want to animate
-def showSortList(wayToSort, wayName, arr=[],N=0):
+def showSortList(wayToSort, wayName, arr=[],N=0,mode="show"):
     fig = plt.figure()
     x=arr
     if N==0:
@@ -39,7 +39,10 @@ def showSortList(wayToSort, wayName, arr=[],N=0):
     # the video can be embedded in html5.  You may need to adjust this for
     # your system: for more information, see
     # http://matplotlib.sourceforge.net/api/animation_api.html
-    anim.save(wayName+'.mp4',writer=animation.FFMpegWriter(fps=6))
+    if mode=="show":
+        plt.show()
+    elif mode=="save":
+        anim.save(wayName+'.mp4',writer=animation.FFMpegWriter(fps=6))
 
     #plt.show()
 
