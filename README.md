@@ -17,7 +17,7 @@ A visualization of sorting algorithms using matplotlib.
     - an positive integer(default 10): the sequence will be array of integers from 1 to that number.
     - a sequence of positive integers separated by commas only: it will be the sequence.
 - There are seven possible options for `arg4`:
-    - `all`(default) Show the visualization of all sorting algorithms in the animation.
+    - `all`(default): Shows/Stores the visualizations of all sorting algorithms below **separately**.
     - `bubble-sort`: Only show the visualization of bubble sorting algorithm in the animation. The following arguments have similar functions.
     - `heap-sort`
     - `insertion-sort`
