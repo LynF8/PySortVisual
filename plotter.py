@@ -16,7 +16,7 @@ sortingMethods = {
 }
 
 # First set up the figure, the axis, and the plot element we want to animate
-def showSortList(wayToSort, wayName, arr=[],N=0,mode="show"):
+def showSortList(wayToSort, wayName, arr=[],N=0,todo="play"):
     fig = plt.figure()
     x=arr
     if N==0:
@@ -48,25 +48,29 @@ def showSortList(wayToSort, wayName, arr=[],N=0,mode="show"):
     # the video can be embedded in html5.  You may need to adjust this for
     # your system: for more information, see
     # http://matplotlib.sourceforge.net/api/animation_api.html
-    if mode=="show":
+    if todo=="play":
         plt.show()
-    elif mode=="save":
+    elif todo=="save-mp4":
         anim.save(wayName+'.mp4',writer=animation.FFMpegWriter(fps=6))
 
-    #plt.show()
+    return fig
 
 if __name__ == "__main__":
     #print(list(map(type,sys.argv)))
     args = sys.argv
-    N = 0
 
+    action = args[1]
+
+    N = 10
     try:
-        N = int(args[0])
+        N = int(args[3])
         x = list(range(1,N+1))
     except:
-        x = list(map(int,args[0].split(",")))
+        x = list(map(int,args[3].split(",")))
+        N = 0
+    
     try:
-        mode = args[1]
+        mode = args[2]
     except:
         if N==0:
             mode = "fixed"
@@ -81,20 +85,19 @@ if __name__ == "__main__":
                 x[i] = x[i+1]
                 x[i+1] = temp
         #print(x)
-    elif mode == "fixed":
-        pass
-    else:
+    elif mode == "random":
         shuffle(x)
+    
     try:
-        sortMethod = args[2]
+        sortMethod = args[4]
     except:
         sortMethod = "all"
-            assert sortMethod in list(sortingMethods.keys())+["all"], sortMethod + " should be in " + str(list(sortingMethods.keys())+["all"])
+        assert sortMethod in list(sortingMethods.keys())+["all"], sortMethod + " should be in " + str(list(sortingMethods.keys())+["all"])
 
     if sortMethod=="all":
         for s in sortingMethods.keys():
             print("generating video for {}".format(s))
-            showSortList(sortingMethods[s],s,copy(x),N)
+            res = showSortList(sortingMethods[s],s,copy(x),N,action)
     else:
         print("generating video for {}".format(sortMethod))
-        showSortList(sortingMethods[sortMethod],sortMethod,copy(x),N)
+        res = showSortList(sortingMethods[sortMethod],sortMethod,copy(x),N,action)
