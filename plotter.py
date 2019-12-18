@@ -6,6 +6,15 @@ from matplotlib import animation
 from sortMethods import *
 import sys
 
+sortingMethods = {
+    "bubble-sort":bubbleSort,
+    "heap-sort":heapSort,
+    "insertion-sort":insertionSort,
+    "merge-sort":mergeSort,
+    "selection-sort":selectionSort,
+    "quick-sort":quickSort
+}
+
 # First set up the figure, the axis, and the plot element we want to animate
 def showSortList(wayToSort, wayName, arr=[],N=0,mode="show"):
     fig = plt.figure()
@@ -48,8 +57,9 @@ def showSortList(wayToSort, wayName, arr=[],N=0,mode="show"):
 
 if __name__ == "__main__":
     #print(list(map(type,sys.argv)))
-    args = sys.argv[1:]
+    args = sys.argv
     N = 0
+
     try:
         N = int(args[0])
         x = list(range(1,N+1))
@@ -75,14 +85,16 @@ if __name__ == "__main__":
         pass
     else:
         shuffle(x)
-    sortingMethods = {
-        "bubbleSort":bubbleSort,
-        "heapSort":heapSort,
-        "insertionSort":insertionSort,
-        "mergeSort":mergeSort,
-        "selectionSort":selectionSort,
-        "quickSort":quickSort
-    }
-    for s in sortingMethods.keys():
-        print("generating video for {}".format(s))
-        showSortList(sortingMethods[s],s,copy(x),N)
+    try:
+        sortMethod = args[2]
+    except:
+        sortMethod = "all"
+            assert sortMethod in list(sortingMethods.keys())+["all"], sortMethod + " should be in " + str(list(sortingMethods.keys())+["all"])
+
+    if sortMethod=="all":
+        for s in sortingMethods.keys():
+            print("generating video for {}".format(s))
+            showSortList(sortingMethods[s],s,copy(x),N)
+    else:
+        print("generating video for {}".format(sortMethod))
+        showSortList(sortingMethods[sortMethod],sortMethod,copy(x),N)
