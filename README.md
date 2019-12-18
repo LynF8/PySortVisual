@@ -2,22 +2,20 @@
 A visualization of sorting algorithms using matplotlib.
 
 # Usage
-To run the script, call `python plotter.py` followed by either:
-- a list of numbers seperated by commas (`,`) only
-- a number `N` (and a modifier)
+`python plotter.py arg1 [arg2 [arg3 [arg4]]]`
 
-When a list of numbers is given, it just sorts the given list.
-
-If a number N is given, it sorts the list `[1,2,...,N]` but affected by the modifier as follows:
-- random (default): shuffles the list
-- fixed: just goes with it
-- almost: tweaks the list slightly
-- reversed: (self-explanatory)
-
-It then generates multiple `.mp4` files for each of the common sorting methods, which are:
-- Bubble sort
-- Selection sort
-- Insertion sort
-- Quick sort
-- Merge sort
-- Heap sort
+- There are two possible options for `arg1`:
+    - `play`: play the animation of the result.
+    - `save-mp4`: save the result as an `.mp4` file.
+- There are five possible options for `arg2`:
+    - `random`(default): the array will be shuffled.
+    - `fixed`: the array will be sorted (before the algorithm is run).
+    - `almost`: the array will be almost sorted.
+    - `reversed`: the array will be reversed.
+    - `custom`: the array will be specified.
+- There are two possible options for `arg3`:
+    - an positive integer: the sequence will be array of integers from 1 to that number.
+    - a sequence of positive integers separated by commas only: it will be the sequence.
+- There are seven possible options for `arg4`:
+    - `all`(default) Show the visualization of all sorting algorithms in the animation.
+    - `bubble-sort`: Only show the visualization of bubble sorting algorithm in the animation. The following arguments have similar functions.
