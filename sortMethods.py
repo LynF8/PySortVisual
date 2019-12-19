@@ -68,7 +68,7 @@ def mergeSort(inp):
     n = len(arr)
     
     if n<=1:
-        return [arr], [[]]
+        return [copy(arr)], [[]]
     #print("sorting",inp)
 
     k = n//2
@@ -114,7 +114,7 @@ def quickSort(inp):
     n = len(arr)
     
     if n<=1:
-        return [arr], [[],[]]
+        return [copy(arr)], [[],[]]
     i = 1
     j = 1
     k = n
@@ -154,6 +154,9 @@ def quickSort(inp):
     seq += [arr[:j]+x for x in backSortSeq]
     toColor += list(map(lambda f: list(map(lambda x: [s+j for s in x],f)),backSortToColor))
     #print(seq)
+    seq += [copy(arr)]
+    toColor += [[]]
+    #print(toColor[-2:])
     return seq, toColor
 
 
