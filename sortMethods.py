@@ -7,7 +7,7 @@ def swap(arr,i,j):
 def selectionSort(inp):
     arr = inp
     seq = []
-    compared = []
+    toColor = []
     n = len(arr)
 
     for i in range(n-1):
@@ -16,18 +16,18 @@ def selectionSort(inp):
             if arr[k]<arr[i]:
                 swap(arr,i,k)
             seq.append(copy(arr))
-            compared.append([[i], [k]])
+            toColor.append([[i], [k]])
             k += 1
     
     seq.append(copy(arr))
-    compared.append([])
-    return seq, compared
+    toColor.append([])
+    return seq, toColor
 
 
 def bubbleSort(inp):
     arr = inp
     seq = []
-    compared = []
+    toColor = []
     n = len(arr)
 
     for i in range(1,n):
@@ -36,17 +36,17 @@ def bubbleSort(inp):
             if arr[k]>arr[k+1]:
                 swap(arr,k,k+1)
             seq.append(copy(arr))
-            compared.append([[k],[k+1]])
+            toColor.append([[k],[k+1]])
             k += 1
     seq.append(copy(arr))
-    compared.append([])
+    toColor.append([])
 
-    return seq, compared
+    return seq, toColor
 
 def insertionSort(inp):
     arr = inp
     seq = []
-    compared = []
+    toColor = []
     n = len(arr)
 
     for i in range(1,n):
@@ -54,17 +54,17 @@ def insertionSort(inp):
         while k>0 and arr[k]<arr[k-1]:
             swap(arr,k,k-1)
             seq.append(copy(arr))
-            compared.append([[k-1],[k]])
+            toColor.append([[k-1],[k]])
             k -= 1
     seq.append(copy(arr))
-    compared.append([])
+    toColor.append([])
 
-    return seq, compared
+    return seq, toColor
 
 def mergeSort(inp):
     arr = inp
     seq = []
-    compared = []
+    toColor = []
     n = len(arr)
     
     if n<=1:
@@ -98,17 +98,17 @@ def mergeSort(inp):
         seq.append(copy(arr))
         #print("step:",arr)
     #print(seq)
-    return seq, compared
+    return seq, toColor
 
 def quickSort(inp):
     #first element as pivot (shrugs)
     arr = inp
     seq = [copy(arr)]
-    compared = []
+    toColor = []
     n = len(arr)
     
     if n<=1:
-        return [arr]
+        return [arr], [[],[]]
     i = 1
     j = 1
     k = n
@@ -116,35 +116,45 @@ def quickSort(inp):
     while j<k:
         if arr[j]==arr[0]:
             swap(arr,i,j)
+            toColor.append([[i],[j],list(range(1,n))])
             i += 1
             j += 1
         elif arr[j]<arr[0]:
+            toColor.append([[],[j],list(range(1,n))])
             j += 1
         else:
             k -= 1
             swap(arr,j,k)
+            toColor.append([[k],[j],list(range(1,n))])
         seq.append(copy(arr))
     #print(arr[:i],arr[i:j],arr[j:])
     swapRange = min(i,j-i)
     for index in range(swapRange):
         swap(arr,index,index+j-swapRange)
         seq.append(copy(arr))
+        toColor.append([[index],[index+j-swapRange]])
     #print(arr)
     i = j-i
     frontSort = quickSort(arr[:i])
-    arr[:i] = frontSort[-1]
-    seq += [x+arr[i:] for x in frontSort]
+    frontSortSeq = frontSort[0]
+    frontSortToColor = frontSort[1]
+    arr[:i] = frontSortSeq[-1]
+    seq += [x+arr[i:] for x in frontSortSeq]
+    toColor += frontSortToColor
     backSort = quickSort(arr[j:])
+    backSortSeq = backSort[0]
+    backSortToColor = backSort[1]
     arr[j:] = backSort[-1]
-    seq += [arr[:j]+x for x in backSort]
+    seq += [arr[:j]+x for x in backSortSeq]
+    toColor += list(map(lambda f: list(map(lambda x: [s+j for s in x],f)),backSortToColor))
     #print(seq)
-    return seq, compared
+    return seq, toColor
 
 
 def heapSort(inp):
     arr = inp
     seq = [copy(arr)]
-    compared = []
+    toColor = []
     n = len(arr)
     if n<=1:
         return [arr]
@@ -171,13 +181,13 @@ def heapSort(inp):
         i = heapSize-1
         while i>0 and arr[i]>arr[parent(i)]:
             swap(arr,i,parent(i))
-            compared.append([[i],[parent(i)]]+getLayers(heapSize))
+            toColor.append([[i],[parent(i)]]+getLayers(heapSize))
             i = parent(i)
             seq.append(copy(arr))
 
         if i==heapSize-1:
             seq.append(copy(arr))
-            compared.append([[],[]]+getLayers(heapSize))
+            toColor.append([[],[]]+getLayers(heapSize))
         #print(getLayers(heapSize))
     
     #print(arr)
@@ -186,7 +196,7 @@ def heapSort(inp):
         heapSize -= 1
         swap(arr,0,heapSize)
         seq.append(copy(arr))
-        compared.append([[0],[heapSize]]+getLayers(heapSize))
+        toColor.append([[0],[heapSize]]+getLayers(heapSize))
         #print("managing",arr[:heapSize])
         i = 0
         while (children(i)[0]<heapSize and arr[i]<arr[children(i)[0]]) or (children(i)[1]<heapSize and arr[i]<arr[children(i)[1]]):
@@ -197,14 +207,14 @@ def heapSort(inp):
                 maxIndex = children(i)[1]
             assert maxIndex!=i, "Something went wrong with sifting down..." + str(arr) + str(i)
             swap(arr,i,maxIndex)
-            compared.append([[i],[maxIndex]]+getLayers(heapSize))
+            toColor.append([[i],[maxIndex]]+getLayers(heapSize))
             i = maxIndex
             seq.append(copy(arr))
         if i==0:
             seq.append(copy(arr))
-            compared.append([[],[]]+getLayers(heapSize))
+            toColor.append([[],[]]+getLayers(heapSize))
         #print("managed:",arr[:heapSize])
         #print(getLayers(heapSize))
 
-    return seq, compared
+    return seq, toColor
 

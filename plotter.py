@@ -43,9 +43,9 @@ def showSortList(wayName, arr=[],N=0,todo="play"):
         defaultColors[values[i]] = (0,(l-i-1)/(l-1),i/(l-1))
 
     l = ceil(log(N,2))
-    standOutColors = [((l-i+1)/(l+1),i/(l+1),0) for i in range(1,l+1)]
-    standOutColors += [(i/(l+1),0,(l-i+1)/(l+1)) for i in range(1,l+1)]
-    standOutColors = [(1,0,0),(0,0,0)] + standOutColors[::2] + standOutColors[1::2]
+    standOutColors = [((l-i+1)/(l+1),i/(l+1)*0.8,0) for i in range(1,l+1)]
+    standOutColors += [(i/(l+1),0,(l-i+1)/(l+1)*0.8) for i in range(1,l+1)]
+    standOutColors = [(1,0,0),(0,0,0),(0.4,0.4,0.4)] + standOutColors[::2] + standOutColors[1::2]
 
     # animation function.  This is called sequentially
     def animate(t):
@@ -89,16 +89,25 @@ if __name__ == "__main__":
 
     action = args[1]
 
-    N = 10
     try:
-        N = int(args[3])
+        sortMethod = args[2]
+    except:
+        sortMethod = "all"
+    assert sortMethod in list(sortingMethods.keys())+["all"], sortMethod + " should be in " + str(list(sortingMethods.keys())+["all"])
+
+
+    N = 10
+    x = list(range(1,N+1))
+    try:
+        N = int(args[4])
         x = list(range(1,N+1))
     except:
-        x = list(map(int,args[3].split(",")))
-        N = 0
+        if len(args)>=4 and args[4]!="":
+            x = list(map(int,args[4].split(",")))
+            N = 0
     
     try:
-        mode = args[2]
+        mode = args[3]
     except:
         if N==0:
             mode = "fixed"
@@ -116,12 +125,6 @@ if __name__ == "__main__":
     elif mode == "random":
         shuffle(x)
     
-    try:
-        sortMethod = args[4]
-    except:
-        sortMethod = "all"
-    assert sortMethod in list(sortingMethods.keys())+["all"], sortMethod + " should be in " + str(list(sortingMethods.keys())+["all"])
-
     if sortMethod=="all":
         for s in sortingMethods.keys():
             print("generating video for {}".format(s))
