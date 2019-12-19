@@ -20,6 +20,12 @@ sortingMethods = {
 # First set up the figure, the axis, and the plot element we want to animate
 def showSortList(wayName, arr=[],N=0,todo="play"):
     fig = plt.figure()
+    plt.tick_params(
+    axis='x',          # changes apply to the x-axis
+    which='both',      # both major and minor ticks are affected
+    bottom=False,      # ticks along the bottom edge are off
+    top=False,         # ticks along the top edge are off
+    labelbottom=False)
     if N==0:
         N = len(arr)
     elif arr==[]:
