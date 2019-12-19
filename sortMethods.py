@@ -16,7 +16,7 @@ def selectionSort(inp):
             if arr[k]<arr[i]:
                 swap(arr,i,k)
             seq.append(copy(arr))
-            compared.append([i, k])
+            compared.append([[i], [k]])
             k += 1
     
     seq.append(copy(arr))
@@ -36,7 +36,7 @@ def bubbleSort(inp):
             if arr[k]>arr[k+1]:
                 swap(arr,k,k+1)
             seq.append(copy(arr))
-            compared.append([k,k+1])
+            compared.append([[k],[k+1]])
             k += 1
     seq.append(copy(arr))
     compared.append([])
@@ -54,11 +54,11 @@ def insertionSort(inp):
         while k>0 and arr[k]<arr[k-1]:
             swap(arr,k,k-1)
             seq.append(copy(arr))
-            compared.append([k-1,k])
+            compared.append([[k-1],[k]])
             k -= 1
     seq.append(copy(arr))
     compared.append([])
-    
+
     return seq, compared
 
 def mergeSort(inp):
@@ -155,15 +155,30 @@ def heapSort(inp):
         return i//2
 
     heapSize = 1
+
+    def getLayers(h):
+        tempIndex = 0
+        res = []
+        while tempIndex<h:
+            res.append(list(range(tempIndex,2*tempIndex+1)))
+            tempIndex = 2*tempIndex + 1
+        tempIndex = (tempIndex-1)//2
+        res[-1] = list(range(tempIndex,h))
+        return res
+
     while heapSize<n:
-        i = heapSize
+        heapSize += 1
+        i = heapSize-1
         while i>0 and arr[i]>arr[parent(i)]:
             swap(arr,i,parent(i))
+            compared.append([[i],[parent(i)]]+getLayers(heapSize))
             i = parent(i)
             seq.append(copy(arr))
-        if i==heapSize:
+
+        if i==heapSize-1:
             seq.append(copy(arr))
-        heapSize += 1
+            compared.append([[],[]]+getLayers(heapSize))
+        #print(getLayers(heapSize))
     
     #print(arr)
     
@@ -171,6 +186,7 @@ def heapSort(inp):
         heapSize -= 1
         swap(arr,0,heapSize)
         seq.append(copy(arr))
+        compared.append([[0],[heapSize]]+getLayers(heapSize))
         #print("managing",arr[:heapSize])
         i = 0
         while (children(i)[0]<heapSize and arr[i]<arr[children(i)[0]]) or (children(i)[1]<heapSize and arr[i]<arr[children(i)[1]]):
@@ -181,11 +197,14 @@ def heapSort(inp):
                 maxIndex = children(i)[1]
             assert maxIndex!=i, "Something went wrong with sifting down..." + str(arr) + str(i)
             swap(arr,i,maxIndex)
+            compared.append([[i],[maxIndex]]+getLayers(heapSize))
             i = maxIndex
             seq.append(copy(arr))
         if i==0:
             seq.append(copy(arr))
+            compared.append([[],[]]+getLayers(heapSize))
         #print("managed:",arr[:heapSize])
-    
+        #print(getLayers(heapSize))
+
     return seq, compared
 

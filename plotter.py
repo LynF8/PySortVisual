@@ -42,6 +42,11 @@ def showSortList(wayName, arr=[],N=0,todo="play"):
     for i in range(l):
         defaultColors[values[i]] = (0,(l-i-1)/(l-1),i/(l-1))
 
+    l = ceil(log(N,2))
+    standOutColors = [((l-i+1)/(l+1),i/(l+1),0) for i in range(1,l+1)]
+    standOutColors += [(i/(l+1),0,(l-i+1)/(l+1)) for i in range(1,l+1)]
+    standOutColors = [(1,0,0),(0,0,0)] + standOutColors[::2] + standOutColors[1::2]
+
     # animation function.  This is called sequentially
     def animate(t):
         if t<len(seq):
@@ -49,11 +54,13 @@ def showSortList(wayName, arr=[],N=0,todo="play"):
             for i, b in enumerate(barcollection):
                 b.set_height(toDraw[i])
                 try:
-                    if i==toColor[t][0]:
-                        b.set_color((1,0,0))
-                    elif i==toColor[t][1]:
-                        b.set_color((0,0,0))
-                    else:
+                    isSpecial = False
+                    for j in range(len(toColor[t])):
+                        if i in toColor[t][j]:
+                            isSpecial = True
+                            b.set_color(standOutColors[j])
+                            break
+                    if not(isSpecial):
                         b.set_color(defaultColors[toDraw[i]])
                 except:
                     b.set_color(defaultColors[toDraw[i]])
