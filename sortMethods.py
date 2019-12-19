@@ -7,25 +7,25 @@ def swap(arr,i,j):
 def selectionSort(inp):
     arr = inp
     seq = []
+    compared = []
     n = len(arr)
 
-    for i in range(n):
-        k = i
-        minIndex = k
+    for i in range(n-1):
+        k = i+1
         while k<n:
-            if arr[k]<arr[minIndex]:
-                minIndex = k
+            if arr[k]<arr[i]:
+                swap(arr,i,k)
             seq.append(copy(arr))
+            compared.append([i, k])
             k += 1
-        swap(arr,i,minIndex)
-        seq.append(copy(arr))
     
-    return seq
+    return seq, compared
 
 
 def bubbleSort(inp):
     arr = inp
     seq = []
+    compared = []
     n = len(arr)
 
     for i in range(1,n):
@@ -34,13 +34,15 @@ def bubbleSort(inp):
             if arr[k]>arr[k+1]:
                 swap(arr,k,k+1)
             seq.append(copy(arr))
+            compared.append([k,k+1])
             k += 1
     
-    return seq
+    return seq, compared
 
 def insertionSort(inp):
     arr = inp
     seq = []
+    compared = []
     n = len(arr)
 
     for i in range(1,n):
@@ -48,14 +50,15 @@ def insertionSort(inp):
         while k>0 and arr[k]<arr[k-1]:
             swap(arr,k,k-1)
             seq.append(copy(arr))
+            compared.append([k-1,k])
             k -= 1
-        seq.append(copy(arr))
     
-    return seq
+    return seq, compared
 
 def mergeSort(inp):
     arr = inp
     seq = []
+    compared = []
     n = len(arr)
     
     if n<=1:
@@ -89,12 +92,13 @@ def mergeSort(inp):
         seq.append(copy(arr))
         #print("step:",arr)
     #print(seq)
-    return seq
+    return seq, compared
 
 def quickSort(inp):
     #first element as pivot (shrugs)
     arr = inp
     seq = [copy(arr)]
+    compared = []
     n = len(arr)
     
     if n<=1:
@@ -128,12 +132,13 @@ def quickSort(inp):
     arr[j:] = backSort[-1]
     seq += [arr[:j]+x for x in backSort]
     #print(seq)
-    return seq
+    return seq, compared
 
 
 def heapSort(inp):
     arr = inp
     seq = [copy(arr)]
+    compared = []
     n = len(arr)
     if n<=1:
         return [arr]
@@ -175,5 +180,6 @@ def heapSort(inp):
         if i==0:
             seq.append(copy(arr))
         #print("managed:",arr[:heapSize])
-    return seq
+    
+    return seq, compared
 
