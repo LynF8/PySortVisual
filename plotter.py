@@ -45,11 +45,14 @@ def showSortList(wayName, arr=[],N=0,todo="play"):
     l = ceil(log(N,2))
     standOutColors = [((l-i+1)/(l+1),i/(l+1)*0.8,0) for i in range(1,l+1)]
     standOutColors += [(i/(l+1),0,(l-i+1)/(l+1)*0.8) for i in range(1,l+1)]
-    standOutColors = [(1,0,0),(0,0,0),(0.4,0.4,0.4)] + standOutColors[::2] + standOutColors[1::2]
+    standOutColors = [(1,0,0),(0,0,0),(0.2,0.2,0.2)] + standOutColors[::2] + standOutColors[1::2]
 
     # animation function.  This is called sequentially
     def animate(t):
         if t<len(seq):
+            for progress in range(1,11):
+                if t == int(len(seq)*progress/10)-1:
+                    print("{}0% of frames drawn...".format(progress))
             toDraw = seq[t]
             for i, b in enumerate(barcollection):
                 b.set_height(toDraw[i])
@@ -79,7 +82,7 @@ def showSortList(wayName, arr=[],N=0,todo="play"):
     if todo=="play":
         plt.show()
     elif todo=="save-mp4":
-        anim.save(wayName+'.mp4', writer=animation.FFMpegWriter(fps=6))
+        anim.save(wayName+'.mp4', writer=animation.FFMpegWriter(fps=max(6,len(seq)/60)))
 
     return fig
 
@@ -116,8 +119,8 @@ if __name__ == "__main__":
     
     
     if mode == "few-unique":
-        numUnique = randint(min(3,N),min(N,8))
-        setValues = sample(range(1,N),numUnique)
+        numUnique = randint(min(3,N),min(8,N))
+        setValues = range(randint(1,N//numUnique),N,N//numUnique)
         x = [*[c for asdf in range(ceil(N/numUnique)) for c in setValues]]
         shuffle(x)
         x = x[:N]
