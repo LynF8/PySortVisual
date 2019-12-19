@@ -6,8 +6,8 @@ def swap(arr,i,j):
 
 def selectionSort(inp):
     arr = inp
-    seq = []
-    toColor = []
+    seq = [copy(arr)]
+    toColor = [[]]
     n = len(arr)
 
     for i in range(n-1):
@@ -26,8 +26,8 @@ def selectionSort(inp):
 
 def bubbleSort(inp):
     arr = inp
-    seq = []
-    toColor = []
+    seq = [copy(arr)]
+    toColor = [[]]
     n = len(arr)
 
     for i in range(1,n):
@@ -45,8 +45,8 @@ def bubbleSort(inp):
 
 def insertionSort(inp):
     arr = inp
-    seq = []
-    toColor = []
+    seq = [copy(arr)]
+    toColor = [[]]
     n = len(arr)
 
     for i in range(1,n):
@@ -63,48 +63,54 @@ def insertionSort(inp):
 
 def mergeSort(inp):
     arr = inp
-    seq = []
-    toColor = []
+    seq = [copy(arr)]
+    toColor = [[]]
     n = len(arr)
     
     if n<=1:
-        return [arr]
+        return [arr], [[]]
     #print("sorting",inp)
+
     k = n//2
     #sort front
-    frontSort = mergeSort(copy(arr[:k]))
-    arr[:k] = frontSort[-1]
-    seq += [x+copy(arr[k:]) for x in frontSort]
-    #sort back
-    backSort = mergeSort(copy(arr[k:]))
-    arr[k:] = backSort[-1]
-    seq += [copy(arr[:k])+x for x in backSort]
+    frontSort = mergeSort(arr[:k])
+    frontSortSeq = frontSort[0]
+    frontSortToColor = frontSort[1]
+    arr[:k] = frontSortSeq[-1]
+    seq += [x+arr[k:] for x in frontSortSeq]
+    toColor += frontSortToColor
+    backSort = mergeSort(arr[k:])
+    backSortSeq = backSort[0]
+    backSortToColor = backSort[1]
+    arr[k:] = backSortSeq[-1]
+    seq += [arr[:k]+x for x in backSortSeq]
+    toColor += [list(map(lambda x: [s+k for s in x],f)) for f in backSortToColor]
+    
     i = 0
     j = k
-    # allow shifting for convenience
-
-    while i<j and j<n:
+    tempArray = []
+    # use external array
+    while i<k and j<n:
+        toColor.append([[i],[j],list(range(n))])
         if arr[i]<=arr[j]:
-            pass
+            tempArray.append(arr[i])
+            i += 1
         else:
-            #shift
-            toplace = arr[j]
-            for index in reversed(range(i,j)):
-                arr[index+1] = arr[index]
-                seq.append(copy(arr))
-            arr[i] = toplace
+            tempArray.append(arr[j])
             j += 1
-        i += 1
         seq.append(copy(arr))
         #print("step:",arr)
     #print(seq)
+    arr = tempArray + arr[i:k] + arr[j:]
+    seq.append(copy(arr))
+    toColor.append([[],[],[]])
     return seq, toColor
 
 def quickSort(inp):
     #first element as pivot (shrugs)
     arr = inp
     seq = [copy(arr)]
-    toColor = []
+    toColor = [[]]
     n = len(arr)
     
     if n<=1:
@@ -144,7 +150,7 @@ def quickSort(inp):
     backSort = quickSort(arr[j:])
     backSortSeq = backSort[0]
     backSortToColor = backSort[1]
-    arr[j:] = backSort[-1]
+    arr[j:] = backSortSeq[-1]
     seq += [arr[:j]+x for x in backSortSeq]
     toColor += list(map(lambda f: list(map(lambda x: [s+j for s in x],f)),backSortToColor))
     #print(seq)
