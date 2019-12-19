@@ -110,20 +110,35 @@ if __name__ == "__main__":
         mode = args[3]
     except:
         if N==0:
-            mode = "fixed"
+            mode = "sorted"
         else:
             mode = "random"
-    if mode == "reversed":
+    
+    
+    if mode == "few-unique":
+        numUnique = randint(min(3,N),min(N,8))
+        setValues = sample(range(1,N),numUnique)
+        x = [*[c for asdf in range(numUnique) for c in setValues]]
+        x += sample(numUnique,n-len(x))
+    elif mode == "random":
+        x = [randint(1,N) for asdf in range(N)]
+    elif mode == "reversed":
         x = list(reversed(x))
-    elif mode == "almost":
+    elif mode == "almost-sorted":
+        for i in range(N-1):
+            if not(randint(0,N//4)):
+                temp = x[i]
+                x[i] = x[i+1]
+                x[i+1] = temp
+    elif mode == "almost-reversed":
+        x = reversed(x)
         for i in range(N-1):
             if not(randint(0,N//4)):
                 temp = x[i]
                 x[i] = x[i+1]
                 x[i+1] = temp
         #print(x)
-    elif mode == "random":
-        shuffle(x)
+    
     
     if sortMethod=="all":
         for s in sortingMethods.keys():
