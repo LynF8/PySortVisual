@@ -17,10 +17,11 @@ A visualization of sorting algorithms using matplotlib.
     - `quick-sort`
 - There are five possible options for `arg3`:
     - `random`(default): the array will be shuffled.
-    - `fixed`: the array will be sorted (before the algorithm is run).
-    - `almost`: the array will be almost sorted.
+    - `sorted`: the array will be sorted (before the algorithm is run).
+    - `almost-sorted`: the array will be almost sorted.
     - `reversed`: the array will be reversed.
+    - `almost-reversed`: the array will be almost reversed.
     - `custom`: the array will be specified.
 - There are two possible options for `arg4`:
     - an positive integer(default 10): the sequence will be array of integers from 1 to that number.
-    - a sequence of positive integers separated by commas only: it will be the sequence.
+    - a sequence of positive integers separated by commas only: only usable if `arg3` is `custom`.
