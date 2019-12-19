@@ -19,6 +19,8 @@ def selectionSort(inp):
             compared.append([i, k])
             k += 1
     
+    seq.append(copy(arr))
+    compared.append([])
     return seq, compared
 
 
@@ -36,7 +38,9 @@ def bubbleSort(inp):
             seq.append(copy(arr))
             compared.append([k,k+1])
             k += 1
-    
+    seq.append(copy(arr))
+    compared.append([])
+
     return seq, compared
 
 def insertionSort(inp):
@@ -52,6 +56,8 @@ def insertionSort(inp):
             seq.append(copy(arr))
             compared.append([k-1,k])
             k -= 1
+    seq.append(copy(arr))
+    compared.append([])
     
     return seq, compared
 
