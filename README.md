@@ -1,12 +1,12 @@
 # PySortVisual
-A visualization of sorting algorithms using matplotlib.
+PySortVisual is a program which helps you visualize a variety of sorting algorithms, with any array of your choice! The visualization is color coded for a better understanding as well as fascination :)
 
 # Usage
 `python plotter.py arg1 [arg2 [arg3 [arg4]]]`
 
 - There are two possible options for `arg1`:
     - `play`: play the animation of the result.
-    - `save-mp4`: save the result as an `.mp4` file.
+    - `save-mp4`: save the result as an `.mp4` file. The length of the video is at most 1 minute.
 - There are seven possible options for `arg2`:
     - `all`(default): Shows/Stores the visualizations of all sorting algorithms below **separately**.
     - `bubble-sort`: Only show the visualization of bubble sorting algorithm in the animation. The following arguments have similar functions.
