@@ -102,7 +102,7 @@ if __name__ == "__main__":
         N = int(args[4])
         x = list(range(1,N+1))
     except:
-        if len(args)>=4 and args[4]!="":
+        if len(args)>=4+1 and args[4]!="":
             x = list(map(int,args[4].split(",")))
             N = 0
     
@@ -118,8 +118,9 @@ if __name__ == "__main__":
     if mode == "few-unique":
         numUnique = randint(min(3,N),min(N,8))
         setValues = sample(range(1,N),numUnique)
-        x = [*[c for asdf in range(numUnique) for c in setValues]]
-        x += sample(numUnique,n-len(x))
+        x = [*[c for asdf in range(ceil(N/numUnique)) for c in setValues]]
+        shuffle(x)
+        x = x[:N]
     elif mode == "random":
         x = [randint(1,N) for asdf in range(N)]
     elif mode == "reversed":
