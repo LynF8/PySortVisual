@@ -1,8 +1,7 @@
 # PySortVisual
 PySortVisual is a program which helps you visualize a variety of sorting algorithms, with any array of your choice! The visualization is color coded for a better understanding as well as fascination :)
 
-Click the picture below to play the sample video.  
-[![click to play video](https://raw.githubusercontent.com/LynF8/PySortVisual/master/sample-video.mp4)]
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
 
 # Usage
 `python plotter.py arg1 [arg2 [arg3 [arg4]]]`
